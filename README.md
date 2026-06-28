@@ -1,8 +1,11 @@
-# Legendaire Charter Pro v7
+# Legendaire Charter Pro v8
 
-Upload all files in this folder to the root of your GitHub Pages repository.
+Plain HTML/CSS/JS iPhone PWA quote calculator.
 
-After upload, open:
-https://legendairecharters.github.io/legendaire-charter-pro/?v=7
+Changes in v8:
+- App icon updated to the supplied King Air C90 icon.
+- Header branding now uses the same icon asset.
+- WA route map polygon rebuilt to look much closer to Western Australia.
+- No aircraft photos, no presets, no recommended-aircraft feature.
 
-Then remove and re-add the Home Screen app if the old icon remains cached.
+Upload all files to the repository root, enable GitHub Pages, then open with `?v=8` before adding to Home Screen.
