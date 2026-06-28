@@ -1,3 +1,3 @@
-Legendaire Charter Pro v11
+Legendaire Charter Pro v12
 
-Visual refresh back to the original navy/amber aviation palette. Upload all files to the repository root and open with ?v=11.
+Light professional colour redesign. Upload all files to repo root and open with ?v=12.
