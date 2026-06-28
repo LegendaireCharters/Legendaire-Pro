@@ -1,3 +1,3 @@
-# Legendaire Charter Pro v10
+Legendaire Charter Pro v11
 
-Premium Legendaire colour refresh. Upload all files to the repository root and open with `?v=10`.
+Visual refresh back to the original navy/amber aviation palette. Upload all files to the repository root and open with ?v=11.
