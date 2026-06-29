@@ -1,8 +1,5 @@
-# Legendaire Charter Pro v14
+# Legendaire Charter Pro v15
 
-Upload these files to the repository root. Open the GitHub Pages URL with `?v=14` after publishing.
+Fixes the quote sheet top summary cards so Aircraft, Route, Passengers, Flight Time, Distance and Validity display clearly.
 
-Changes in v14:
-- Removed the Aircraft Currently At / positioning field.
-- Quote sheet now clearly includes route, passenger count, flight time, distance, aircraft, GST and total.
-- Quote calculations no longer add positioning sectors.
+Upload all files to the GitHub repository root, replacing existing files. Open your Pages URL with ?v=15 after upload.

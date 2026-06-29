@@ -16,7 +16,7 @@
 @media(max-width:520px){body{padding-left:10px;padding-right:10px}.row,.row3{grid-template-columns:1fr}.aircraft{grid-template-columns:1fr}.routeSummary{grid-template-columns:1fr 1fr 1fr}#map{height:295px}.qgrid{grid-template-columns:1fr 1fr}.qbody{padding:14px}.qtop{padding:15px}.pill{display:none}}
 @media print{body{background:white!important;padding:0}.top,.card:not(.quote),.actions,.toast{display:none!important}.app{max-width:none}.quote{display:block!important;box-shadow:none;border-radius:0;margin:0}.qtop{padding:16px}.qbody{padding:16px}.qbox{padding:9px}.br{padding:7px 10px}.note{font-size:10px}@page{size:A4;margin:10mm}}
 
-/* v14 — quote sheet data fix + route simplification */
+/* v15 — quote card visibility fix + compact quote sheet */
 :root{--bg:#061721;--page:#071b25;--panel:#0b2230;--panel2:#0a1d29;--ink:#f3f7f8;--text:#f3f7f8;--muted:#a9bbc5;--line:rgba(126,166,181,.22);--line2:rgba(126,166,181,.14);--navy:#102437;--navy2:#152c40;--teal:#2fd2df;--tealSoft:rgba(47,210,223,.10);--gold:#f1dfb7;--gold2:#d9bd82;--danger:#e3a094;--ok:#44cbd1;--white:#fff;--r:24px;--shadow:0 18px 42px rgba(0,0,0,.28);--safeTop:env(safe-area-inset-top,0px);--safeBot:env(safe-area-inset-bottom,0px)}
 html{background:#061721}body{background:radial-gradient(circle at 50% -10%,rgba(21,91,105,.62),transparent 38%),linear-gradient(180deg,#08202b 0%,#071823 42%,#06131d 100%);color:var(--text)}
 .top{background:linear-gradient(180deg,rgba(8,30,42,.96),rgba(8,30,42,.78));border-bottom:1px solid rgba(47,210,223,.12);box-shadow:0 8px 28px rgba(0,0,0,.18)}
@@ -32,6 +32,19 @@ html{background:#061721}body{background:radial-gradient(circle at 50% -10%,rgba(
 .settingsGrid{display:grid;gap:10px;margin:8px 0 12px}.planeEdit{border:1px solid rgba(126,166,181,.20);background:rgba(255,255,255,.035);border-radius:16px;padding:12px}.planeEditHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}.planeEditHead b{color:#fff}.planeEditHead small{color:#a9bbc5}.planeEditGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.planeEditGrid .input{padding:10px 11px}.planeEditGrid label{font-size:10px;color:#a9bbc5;letter-spacing:.08em;text-transform:uppercase;font-weight:800}.mapBadge{fill:#071823;stroke:rgba(255,255,255,.14)}
 @media(max-width:520px){.planeEditGrid{grid-template-columns:1fr 1fr 1fr}.top{position:relative}}
 
+
+/* v15 quote sheet readability fix */
+.quote .qbody{background:#fff;color:#102437;}
+.quote .qgrid{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.quote .qbox{background:#ffffff!important;border:1px solid #dfe7ea!important;border-radius:14px;padding:12px!important;min-height:76px;}
+.quote .qbox small{color:#5f6b72!important;}
+.quote .qbox b{color:#102437!important;display:block!important;opacity:1!important;visibility:visible!important;font-size:15px!important;line-height:1.25!important;word-break:break-word;}
+.quote .break{background:#fff;color:#102437;}
+.quote .br{background:#fff;color:#102437;}
+.quote .br b{color:#102437;}
+.quote .br.total{background:#102437;color:#fff;}
+.quote .br.total b{color:#fff;}
+@media(max-width:420px){.quote .qbox{min-height:68px;padding:10px!important}.quote .qbox b{font-size:13px!important}.qtop h3{font-size:17px!important}.qbody{padding:14px!important}.br{font-size:14px}.br.total{font-size:16px}}
 </style>
 </head>
 <body>
@@ -95,8 +108,8 @@ const time=h=>{let m=Math.round(h*60),hh=Math.floor(m/60);m%=60;return hh?`${hh}
 function initSearch(inputId,resultId,key){const input=$(inputId),box=$(resultId);input.addEventListener('input',()=>{const q=input.value.trim().toLowerCase();box.innerHTML=''; if(!q){box.classList.remove('show');return} const res=AIRPORTS.filter(a=>(a.c+' '+a.n+' '+a.t).toLowerCase().includes(q)).slice(0,16);res.forEach(a=>{const d=document.createElement('div');d.className='result';d.innerHTML=`<b>${a.n} <small>${a.c}</small></b><small>${a.t} · ${a.rwy}m · ${a.surf}</small>`;d.onclick=()=>{state[key]=a.c;input.value='';box.classList.remove('show');render()};box.appendChild(d)});box.classList.toggle('show',!!res.length)});document.addEventListener('click',e=>{if(!input.parentElement.contains(e.target))box.classList.remove('show')})}
 
 function defaultAircraft(){return {C210:{name:'Cessna 210',pax:5,speed:148,rate:900,minRwy:850,type:'single'},C402:{name:'Cessna 402',pax:7,speed:170,rate:2000,minRwy:1050,type:'twin piston'},PA31:{name:'PA-31 Navajo',pax:7,speed:165,rate:1700,minRwy:1050,type:'twin piston'},C90:{name:'King Air C90',pax:6,speed:226,rate:3000,minRwy:1200,type:'turboprop'},BE200:{name:'King Air B200',pax:9,speed:272,rate:3500,minRwy:1250,type:'turboprop'},C441:{name:'Cessna 441 Conquest II',pax:8,speed:295,rate:3500,minRwy:1250,type:'turboprop'}}}
-function loadAircraftData(){try{const saved=JSON.parse(localStorage.getItem('lcpAircraftV14')||'{}');Object.entries(saved).forEach(([k,v])=>{if(AIRCRAFT[k]){AIRCRAFT[k].rate=+v.rate||AIRCRAFT[k].rate;AIRCRAFT[k].speed=+v.speed||AIRCRAFT[k].speed;AIRCRAFT[k].pax=+v.pax||AIRCRAFT[k].pax;AIRCRAFT[k].minRwy=+v.minRwy||AIRCRAFT[k].minRwy}})}catch(e){}}
-function saveAircraftData(){const out={};Object.entries(AIRCRAFT).forEach(([k,a])=>out[k]={rate:a.rate,speed:a.speed,pax:a.pax,minRwy:a.minRwy});localStorage.setItem('lcpAircraftV14',JSON.stringify(out))}
+function loadAircraftData(){try{const saved=JSON.parse(localStorage.getItem('lcpAircraftV15')||'{}');Object.entries(saved).forEach(([k,v])=>{if(AIRCRAFT[k]){AIRCRAFT[k].rate=+v.rate||AIRCRAFT[k].rate;AIRCRAFT[k].speed=+v.speed||AIRCRAFT[k].speed;AIRCRAFT[k].pax=+v.pax||AIRCRAFT[k].pax;AIRCRAFT[k].minRwy=+v.minRwy||AIRCRAFT[k].minRwy}})}catch(e){}}
+function saveAircraftData(){const out={};Object.entries(AIRCRAFT).forEach(([k,a])=>out[k]={rate:a.rate,speed:a.speed,pax:a.pax,minRwy:a.minRwy});localStorage.setItem('lcpAircraftV15',JSON.stringify(out))}
 function renderAircraftSettings(){const grid=$('aircraftSettingsGrid');if(!grid)return;grid.innerHTML='';Object.entries(AIRCRAFT).forEach(([k,a])=>{const d=document.createElement('div');d.className='planeEdit';d.innerHTML=`<div class="planeEditHead"><b>${a.name}</b><small>${k}</small></div><div class="planeEditGrid"><div><label>$/hr</label><input class="input" type="number" data-ac="${k}" data-field="rate" value="${a.rate}"></div><div><label>Speed kt</label><input class="input" type="number" data-ac="${k}" data-field="speed" value="${a.speed}"></div><div><label>Pax</label><input class="input" type="number" data-ac="${k}" data-field="pax" value="${a.pax}"></div><div><label>Min runway m</label><input class="input" type="number" data-ac="${k}" data-field="minRwy" value="${a.minRwy}"></div></div>`;grid.appendChild(d)});grid.querySelectorAll('input').forEach(i=>i.addEventListener('input',()=>{const k=i.dataset.ac,f=i.dataset.field;AIRCRAFT[k][f]=+i.value||0;saveAircraftData();render()}))}
 function renderAircraft(){const grid=$('aircraftGrid');grid.innerHTML='';Object.entries(AIRCRAFT).forEach(([k,a])=>{const b=document.createElement('button');b.className='ac '+(state.ac===k?'active':'');b.innerHTML=`<b>${a.name}</b><div class="meta"><span>${a.pax} pax</span><span>${a.speed} kt</span><span>${money(a.rate)}/hr</span><span>${a.type}</span></div>`;b.onclick=()=>{state.ac=k;render()};grid.appendChild(b)})}
 function project(lat,lon){const minLon=112,maxLon=129.2,minLat=-36.5,maxLat=-13.4;return {x:70+(lon-minLon)/(maxLon-minLon)*560,y:55+(maxLat-lat)/(maxLat-minLat)*660}}
