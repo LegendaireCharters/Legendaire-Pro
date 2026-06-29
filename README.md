@@ -1,5 +1,14 @@
-# Legendaire Charter Pro v15
+# Westline Air Charter Pro v16
 
-Fixes the quote sheet top summary cards so Aircraft, Route, Passengers, Flight Time, Distance and Validity display clearly.
+Upload all files to your GitHub Pages repository root.
 
-Upload all files to the GitHub repository root, replacing existing files. Open your Pages URL with ?v=15 after upload.
+Open with `?v=16w` after upload.
+
+## Changes
+- Rebranded the app from Legendaire to **Westline Air**.
+- Added clean Westline Air wing-style branding inside the app and quote sheet.
+- Kept the existing King Air app icon files.
+- Kept the expanded WA airport/strip database.
+- Kept Aircraft Data editor and Airport/Strip Data editor in Settings.
+
+Operational note: airport data is for quoting/intelligence only. Confirm ERSA/AIP, operator approvals, runway condition, fuel, weather, permissions and insurance before accepting a booking.
